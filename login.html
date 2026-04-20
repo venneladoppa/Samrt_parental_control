@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-tertiary-fixed": "#390c00",
+            "secondary": "#585c80",
+            "on-secondary-container": "#575b7f",
+            "tertiary-fixed": "#ffdbd0",
+            "on-background": "#191c1e",
+            "on-error": "#ffffff",
+            "surface-dim": "#d8dadc",
+            "secondary-fixed-dim": "#c1c3ed",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "surface-container-high": "#e6e8ea",
+            "surface-container": "#eceef0",
+            "outline": "#767683",
+            "inverse-surface": "#2d3133",
+            "on-primary-container": "#8690ee",
+            "error-container": "#ffdad6",
+            "surface-container-lowest": "#ffffff",
+            "on-error-container": "#93000a",
+            "tertiary": "#380b00",
+            "on-tertiary-fixed-variant": "#7b2e12",
+            "secondary-container": "#d2d4ff",
+            "on-tertiary": "#ffffff",
+            "surface-container-highest": "#e0e3e5",
+            "surface": "#f7f9fb",
+            "outline-variant": "#c6c5d4",
+            "surface-variant": "#e0e3e5",
+            "tertiary-container": "#5c1800",
+            "on-secondary-fixed-variant": "#414467",
+            "surface-tint": "#4c56af",
+            "on-primary-fixed-variant": "#343d96",
+            "inverse-on-surface": "#eff1f3",
+            "on-primary": "#ffffff",
+            "primary": "#000666",
+            "secondary-fixed": "#e0e0ff",
+            "on-secondary-fixed": "#151839",
+            "background": "#f7f9fb",
+            "on-surface": "#191c1e",
+            "on-surface-variant": "#454652",
+            "on-tertiary-container": "#e17c5a",
+            "primary-fixed-dim": "#bdc2ff",
+            "surface-container-low": "#f2f4f6",
+            "primary-container": "#1a237e",
+            "inverse-primary": "#bdc2ff",
+            "surface-bright": "#f7f9fb",
+            "on-primary-fixed": "#000767",
+            "primary-fixed": "#e0e0ff",
+            "tertiary-fixed-dim": "#ffb59d"
+          },
+          fontFamily: {
+            "headline": ["Manrope"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .ambient-glow {
+      background: radial-gradient(circle at top right, rgba(0, 6, 102, 0.03) 0%, transparent 70%);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-white">
+<!-- Main Content Canvas -->
+<main class="min-h-screen flex items-center justify-center p-6 ambient-glow">
+<div class="w-full max-w-md">
+<!-- Logo & Brand Identity (The Anchor) -->
+<header class="mb-12 flex flex-col items-center">
+<div class="mb-6 h-14 w-14 bg-primary flex items-center justify-center rounded-2xl shadow-[0_8px_24px_rgba(0,6,102,0.15)]">
+<span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+</div>
+<h1 class="font-headline font-extrabold text-4xl tracking-tighter text-primary">Guardian</h1>
+<p class="mt-2 text-on-surface-variant font-medium tracking-tight text-center">Enter your digital sanctuary.</p>
+</header>
+<!-- Transactional Focus Area (Login Form) -->
+<div class="bg-surface-container-lowest rounded-[2rem] p-8 md:p-10 shadow-[0_4px_32px_rgba(0,6,102,0.04)] border border-outline-variant/10">
+<form class="space-y-6" onsubmit="return false;">
+<!-- Email Input -->
+<div class="space-y-2">
+<label class="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant ml-1" for="email">Email ID</label>
+<div class="relative group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline group-focus-within:text-primary transition-colors">alternate_email</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/10 focus:bg-white transition-all text-on-surface placeholder:text-outline-variant" id="email" placeholder="name@example.com" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant" for="password">Password</label>
+<a class="text-[11px] font-bold uppercase tracking-wider text-primary-container hover:text-primary transition-colors" href="#">Forgot?</a>
+</div>
+<div class="relative group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline group-focus-within:text-primary transition-colors">lock</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/10 focus:bg-white transition-all text-on-surface placeholder:text-outline-variant" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+<!-- Primary Action -->
+<div class="pt-2">
+<button class="w-full bg-primary hover:bg-primary-container text-white py-4 px-6 rounded-xl font-bold tracking-tight shadow-[0_8px_16px_rgba(0,6,102,0.1)] hover:shadow-[0_12px_24px_rgba(0,6,102,0.15)] transition-all duration-300 flex items-center justify-center gap-2 group">
+<span>Login</span>
+<span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</form>
+<!-- Secondary Journey -->
+<div class="mt-8 text-center">
+<p class="text-on-surface-variant text-sm font-medium">
+            New to the Sanctuary? 
+            <a class="text-primary-container font-bold hover:underline underline-offset-4 decoration-primary-container/30 transition-all" href="#">Create an Account</a>
+</p>
+</div>
+</div>
+<!-- Safety & Trust Footnote -->
+<footer class="mt-12 flex flex-col items-center gap-4">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all cursor-default">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Secure TLS</span>
+</div>
+<div class="flex items-center gap-2 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all cursor-default">
+<span class="material-symbols-outlined text-sm">encrypted</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">End-to-End</span>
+</div>
+</div>
+<p class="text-[10px] text-outline text-center leading-relaxed max-w-[280px]">
+          By continuing, you agree to Guardian's Terms of Service and Privacy Policy. Protecting your peace of mind is our priority.
+        </p>
+</footer>
+</div>
+<!-- Background Layering (Softness) -->
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+<div class="absolute -top-[10%] -right-[5%] w-[40%] h-[40%] bg-primary-container/5 rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-[10%] -left-[5%] w-[40%] h-[40%] bg-on-primary-container/5 rounded-full blur-[120px]"></div>
+</div>
+</main>
+<!-- Note: Navigation components are suppressed as per "The Destination Rule" for Transactional/Login focused journeys. -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Password visibility toggle
+    const toggleBtn = document.querySelector('button[type="button"]');
+    const passwordInput = document.getElementById('password');
+    if (toggleBtn && passwordInput) {
+        toggleBtn.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            toggleBtn.querySelector('span').innerText = type === 'password' ? 'visibility' : 'visibility_off';
+        });
+    }
+
+    // Login Handler
+    const loginBtn = document.querySelector('button.bg-primary');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    sessionStorage.setItem('token', data.token);
+                    if (data.role === 'child') {
+                        window.location.href = 'child_home_guardian.html';
+                    } else {
+                        window.location.href = 'parent_dashboard_guardian.html';
+                    }
+                } else {
+                    alert(data.error || 'Login failed');
+                }
+            } catch (err) {
+                alert('Network error. Please try again.');
+            }
+        });
+    }
+
+    // Link handling
+    document.querySelectorAll('a').forEach(a => {
+        const text = a.innerText.toLowerCase();
+        if (text.includes('create an account')) a.href = 'signup_role_selection.html';
+    });
+});
+</script>
+</body></html>

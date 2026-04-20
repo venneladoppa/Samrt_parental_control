@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Auto-Response Settings | Guardian</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "guardian-blue": "#1A237E",
+              "on-tertiary-fixed-variant": "#6d3a00",
+              "outline-variant": "#c6c5d4",
+              "secondary-fixed-dim": "#66d9cc",
+              "on-tertiary-fixed": "#2e1500",
+              "tertiary-fixed-dim": "#ffb77a",
+              "tertiary": "#2d1400",
+              "surface-container-low": "#f3f4f5",
+              "primary-container": "#E8EAF6",
+              "on-surface-variant": "#454652",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e1e3e4",
+              "secondary-container": "#81f3e5",
+              "on-secondary-fixed-variant": "#005049",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-highest": "#e1e3e4",
+              "outline": "#767683",
+              "error": "#ba1a1a",
+              "background": "#F8FAFC",
+              "on-error-container": "#93000a",
+              "surface-container": "#edeeef",
+              "on-primary": "#ffffff",
+              "primary": "#1A237E",
+              "on-secondary-container": "#006f66",
+              "primary-fixed-dim": "#b0c6ff",
+              "on-primary-container": "#1A237E",
+              "secondary-fixed": "#84f5e8",
+              "surface-tint": "#1A237E",
+              "surface-bright": "#f8f9fa",
+              "secondary": "#006a62",
+              "surface": "#F8FAFC",
+              "on-primary-fixed": "#001945",
+              "surface-dim": "#d9dadb",
+              "on-background": "#191c1d",
+              "on-surface": "#191c1d",
+              "inverse-on-surface": "#f0f1f2",
+              "on-secondary-fixed": "#00201d",
+              "surface-container-high": "#e7e8e9",
+              "primary-fixed": "#d9e2ff",
+              "on-tertiary": "#ffffff",
+              "on-tertiary-container": "#e17e00",
+              "inverse-surface": "#2e3132",
+              "on-error": "#ffffff",
+              "on-primary-fixed-variant": "#00429c",
+              "tertiary-container": "#4b2600",
+              "inverse-primary": "#b0c6ff",
+              "tertiary-fixed": "#ffdcc2",
+              "on-secondary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-guardian-gradient {
+            background: linear-gradient(135deg, #1A237E 0%, #283593 100%);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #191c1d;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-50 selection:bg-primary-container selection:text-on-primary-container min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+<div class="flex justify-between items-center px-4 h-16 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-100 border border-slate-200">
+<img alt="Child profile selector" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAapZNRsbgsnMI9E_A_17l-yZT2nd_5OWHMaubwNsAPqQ7zqskXcX0o4juWSoApI_UscHUNhVxrK2KSUlBy9ucIbHGZguzxU9Ws7i7Mj6Gy4KO5mECUrhr8pHYAOVXwFU2ZyhZ-dG20YINkveYWqNgcMGoa3zg2U5BXzulUJc-9BPR0-YoEa5Mg9g9puaYdOoPFClGra7Rfy9bdTrwfXF0QrZhPNpLldU99yFt_FwdaaD3mWRIrnQlE-HdyO9m9AD8MHqLGEE-iw2Y"/>
+</div>
+<h1 class="text-xl font-extrabold tracking-tight text-guardian-blue font-headline">Guardian</h1>
+</div>
+<button id="notifBtn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-700 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-4 max-w-screen-xl mx-auto">
+<!-- Editorial Header Section -->
+<section class="mb-10">
+  <h2 class="font-headline text-3xl font-extrabold tracking-tight text-slate-900 mb-2">
+      AI Auto-Response
+  </h2>
+  <!-- Child Selector (Dynamic) -->
+  <div id="childSelector" class="flex gap-4 overflow-x-auto py-4 no-scrollbar">
+      <!-- Populated by JS -->
+  </div>
+  <p class="font-body text-slate-600 text-base leading-relaxed">
+      Empower the Digital Curator to manage digital boundaries when you’re unavailable.
+  </p>
+</section>
+<!-- Main Settings Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Smart Supervision Toggle Card -->
+<div class="md:col-span-8 bg-white rounded-xl p-6 flex flex-col justify-between border border-slate-200 shadow-sm">
+<div class="flex justify-between items-start mb-10">
+<div class="space-y-1">
+<h3 class="font-headline text-xl font-bold text-slate-900">Smart Supervision</h3>
+<p class="text-slate-500 text-sm">Enable AI-driven intervention for device requests.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-12 h-7 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-guardian-blue"></div>
+</label>
+</div>
+<div class="relative w-full h-40 rounded-xl overflow-hidden mb-2">
+<div class="absolute inset-0 bg-guardian-blue opacity-5"></div>
+<img alt="AI visualization" class="w-full h-full object-cover mix-blend-overlay opacity-30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArnrii8Hjq3O1JKBziqhk7Sh71Sn_Jn_-JJCEKCPqMA9-Z0BuWrBxg5Qho9jq0793KZIPr6Omu02HQ5gadPdFtyw95nhG-GYBHzCI6BnwPIEv4BKZwVbZHqYwXx5DkLv7mhDjyxD_nQoKQxri1lJOhtpdj_0aIGW9kodZuUgdtQaGLFkLh2pzk1u1lAVCRwgRoB35FpREsGwdSjoGzk_R7LyKVtGO__yS13rUu12sxqZhU-RPa3UzGtShtudq4HX6N5PyCKSRI0V0"/>
+<div class="absolute inset-0 p-5 flex flex-col justify-end">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="material-symbols-outlined text-guardian-blue text-sm" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest text-guardian-blue">Active Learning</span>
+</div>
+<p class="text-slate-700 font-medium text-xs leading-relaxed">Guardian AI learns your past approval patterns to accurately mirror your parental style.</p>
+</div>
+</div>
+</div>
+<!-- Timeout Slider Card -->
+<div class="md:col-span-4 bg-white rounded-xl p-6 flex flex-col border border-slate-200 shadow-sm">
+<div class="mb-6">
+<div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-guardian-blue text-2xl" data-icon="timer">timer</span>
+</div>
+<h3 class="font-headline text-lg font-bold text-slate-900">Response Timeout</h3>
+<p class="text-slate-500 text-xs mt-1">Wait time before AI takes action.</p>
+</div>
+<div class="mt-auto space-y-4">
+<div class="flex justify-between items-baseline">
+<span class="font-headline text-4xl font-extrabold text-guardian-blue">30</span>
+<span class="font-label text-[10px] font-bold text-slate-400 uppercase tracking-widest">Minutes</span>
+</div>
+<input class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-guardian-blue" max="120" min="5" type="range" value="30"/>
+<div class="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+<span>5 MIN</span>
+<span>2 HOURS</span>
+</div>
+</div>
+</div>
+<!-- Action Rules Section -->
+<div class="md:col-span-12 space-y-4 mt-4">
+<div class="flex items-center gap-3">
+<h3 class="font-headline text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Action rules: "If I don't respond, then..."</h3>
+<div class="h-[1px] flex-grow bg-slate-200"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Rule Option 1 -->
+<button data-rule-id="soft_warning" class="group flex flex-col text-left p-5 rounded-xl bg-white border-2 border-guardian-blue/10 hover:border-guardian-blue transition-all duration-200 shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-orange-600 text-xl" data-icon="campaign">campaign</span>
+</div>
+<h4 class="font-headline text-base font-bold text-slate-900 mb-2">Issue a soft warning</h4>
+<p class="text-slate-500 text-xs leading-relaxed mb-6">Send a polite notification suggesting a break while waiting for review.</p>
+<div class="mt-auto flex items-center gap-1.5 text-guardian-blue font-bold text-[10px] uppercase tracking-widest">
+<span>Selected</span>
+<span class="material-symbols-outlined text-xs" data-icon="check_circle" data-weight="fill">check_circle</span>
+</div>
+</button>
+<!-- Rule Option 2 -->
+<button data-rule-id="block_social" class="group flex flex-col text-left p-5 rounded-xl bg-white border border-slate-200 hover:border-guardian-blue transition-all duration-200 shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-guardian-blue text-xl" data-icon="block">block</span>
+</div>
+<h4 class="font-headline text-base font-bold text-slate-900 mb-2">Block social apps</h4>
+<p class="text-slate-500 text-xs leading-relaxed mb-6">Automatically restrict access to social platforms until you respond.</p>
+<div class="mt-auto flex items-center gap-2 text-slate-400 font-bold text-[10px] uppercase tracking-widest">
+<span>Set as fallback</span>
+</div>
+</button>
+<!-- Rule Option 3 -->
+<button data-rule-id="lock_device" class="group flex flex-col text-left p-5 rounded-xl bg-white border border-slate-200 hover:border-red-600 transition-all duration-200 shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-red-600 text-xl" data-icon="lock">lock</span>
+</div>
+<h4 class="font-headline text-base font-bold text-slate-900 mb-2">Lock device</h4>
+<p class="text-slate-500 text-xs leading-relaxed mb-6">Maximum security. All non-emergency functions are disabled.</p>
+<div class="mt-auto flex items-center gap-2 text-slate-400 font-bold text-[10px] uppercase tracking-widest">
+<span>High Restriction</span>
+</div>
+</button>
+</div>
+</div>
+<!-- AI Decision Logic Explanation -->
+<div class="md:col-span-12 bg-indigo-50/50 rounded-xl p-6 border border-indigo-100 mt-4">
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+<div class="flex-shrink-0 w-16 h-16 rounded-2xl bg-guardian-blue flex items-center justify-center shadow-lg shadow-indigo-200">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="psychology">psychology</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline text-lg font-bold text-slate-900 mb-1">How AI Decisions Work</h3>
+<p class="text-slate-600 text-sm leading-relaxed">
+                        Guardian uses a secure, localized neural model. It analyzes request context and compares it with your history. If the confidence score is high, it intervenes to protect your child's schedule.
+                    </p>
+</div>
+<div class="flex-shrink-0 w-full md:w-auto">
+<button class="w-full md:w-auto bg-guardian-blue text-white px-6 py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-indigo-800 active:scale-95 transition-all shadow-md">
+                        Review AI Data
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-xl border-t border-slate-200 pb-safe z-50">
+<div class="flex justify-around items-center h-20 max-w-screen-xl mx-auto px-2">
+<a class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-guardian-blue transition-colors" href="parent_dashboard_guardian.html">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="dashboard">dashboard</span>
+<span class="text-[9px] font-bold uppercase tracking-wider">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-guardian-blue transition-colors" href="timeline_guardian.html">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="history">history</span>
+<span class="text-[9px] font-bold uppercase tracking-wider">Timeline</span>
+</a>
+<a class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-guardian-blue transition-colors" href="app_limits_guardian.html">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="lock_open">lock_open</span>
+<span class="text-[9px] font-bold uppercase tracking-wider">Control</span>
+</a>
+<a class="flex flex-col items-center justify-center flex-1 text-guardian-blue" href="ai_rules_guardian.html">
+<div class="bg-indigo-50 rounded-xl p-2 mb-1">
+<span class="material-symbols-outlined text-2xl" data-icon="auto_settings">auto_mode</span>
+</div>
+<span class="text-[9px] font-extrabold uppercase tracking-wider">AI Rules</span>
+</a>
+<a class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-guardian-blue transition-colors" href="#" onclick="fetch('/api/logout', {method: 'POST'}).then(() => { sessionStorage.removeItem('token'); window.location.href = 'login.html'; }); return false;">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="person">person</span>
+<span class="text-[9px] font-bold uppercase tracking-wider">Account</span>
+</a>
+</div>
+</nav>
+
+<script>
+    (function() {
+        const originalFetch = window.fetch;
+        window.fetch = function() {
+            let [resource, config] = arguments;
+            if (config === undefined) config = {};
+            if (config.headers === undefined) config.headers = {};
+            const token = sessionStorage.getItem('token');
+            if (token && resource.toString().startsWith('/api/')) {
+                if (config.headers instanceof Headers) {
+                    config.headers.set('Authorization', 'Bearer ' + token);
+                } else {
+                    config.headers['Authorization'] = 'Bearer ' + token;
+                }
+            }
+            return originalFetch(resource, config);
+        };
+    })();
+
+    let activeChildId = null;
+    let currentRules = {};
+
+    async function loadChildren() {
+        try {
+            const res = await fetch('/api/children');
+            if (res.status === 401) { window.location.href = 'login.html'; return; }
+            const children = await res.json();
+            const selector = document.getElementById('childSelector');
+            selector.innerHTML = '';
+
+            children.forEach(child => {
+                const isSelected = activeChildId === child.id || (!activeChildId && children.indexOf(child) === 0);
+                if (isSelected && !activeChildId) activeChildId = child.id;
+
+                const btn = document.createElement('button');
+                btn.className = `flex flex-col items-center gap-2 flex-shrink-0 transition-all ${isSelected ? 'scale-105 opacity-100' : 'opacity-40 grayscale hover:grayscale-0 hover:opacity-100'}`;
+                btn.innerHTML = `
+                    <div class="w-16 h-16 rounded-full border-2 ${isSelected ? 'border-primary' : 'border-slate-200'} overflow-hidden p-0.5 bg-white shadow-sm">
+                        <div class="w-full h-full rounded-full bg-slate-100 flex items-center justify-center overflow-hidden">
+                            <span class="material-symbols-outlined text-slate-400 text-3xl">account_circle</span>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-primary">${child.name}</span>
+                `;
+                btn.onclick = () => {
+                    activeChildId = child.id;
+                    loadChildren();
+                    loadRules(child.id);
+                };
+                selector.appendChild(btn);
+            });
+
+            if (activeChildId) loadRules(activeChildId);
+        } catch(e) { console.error(e); }
+    }
+
+    async function loadRules(childId) {
+        try {
+            const res = await fetch(`/api/ai_rules/${childId}`);
+            currentRules = await res.json();
+            updateUI();
+        } catch(e) { console.error(e); }
+    }
+
+    function updateUI() {
+        // Toggle
+        const toggle = document.querySelector('input[type="checkbox"]');
+        toggle.checked = currentRules.smart_supervision;
+
+        // Slider
+        const slider = document.querySelector('input[type="range"]');
+        slider.value = currentRules.response_timeout_mins;
+        document.querySelector('.text-4xl.font-extrabold').innerText = currentRules.response_timeout_mins;
+
+        // Buttons (Rule selection)
+        document.querySelectorAll('.md\\:col-span-3 button, .grid-cols-1 button').forEach(btn => {
+            const ruleId = btn.getAttribute('data-rule-id');
+            const isSelected = currentRules.action_rule === ruleId;
+            btn.className = `group flex flex-col text-left p-5 rounded-xl bg-white border-2 transition-all duration-200 shadow-sm ${isSelected ? 'border-guardian-blue' : 'border-slate-100'}`;
+            const statusDiv = btn.querySelector('.mt-auto');
+            if (statusDiv) {
+                statusDiv.innerHTML = isSelected ? 
+                    '<span>Selected</span><span class="material-symbols-outlined text-xs">check_circle</span>' : 
+                    '<span>Set as fallback</span>';
+                statusDiv.className = `mt-auto flex items-center gap-1.5 font-bold text-[10px] uppercase tracking-widest ${isSelected ? 'text-guardian-blue' : 'text-slate-400'}`;
+            }
+        });
+    }
+
+    async function saveSetting(key, value) {
+        currentRules[key] = value;
+        await fetch(`/api/ai_rules/${activeChildId}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(currentRules)
+        });
+        updateUI();
+    }
+
+    // Event Listeners
+    document.querySelector('input[type="checkbox"]').onchange = (e) => saveSetting('smart_supervision', e.target.checked);
+    document.querySelector('input[type="range"]').oninput = (e) => {
+        document.querySelector('.text-4xl.font-extrabold').innerText = e.target.value;
+    };
+    document.querySelector('input[type="range"]').onchange = (e) => saveSetting('response_timeout_mins', parseInt(e.target.value));
+
+    // Rule buttons (need to add data-rule-id to the HTML)
+    // I'll do that in a separate replacement chunk for clarity but here's the JS logic
+    document.querySelectorAll('.md\\:col-span-3 button, .grid-cols-1 button').forEach((btn, idx) => {
+        const ids = ['soft_warning', 'block_social', 'lock_device'];
+        const ruleId = ids[idx];
+        btn.setAttribute('data-rule-id', ruleId);
+        btn.onclick = () => saveSetting('action_rule', ruleId);
+    });
+
+    // Notification logic
+    document.getElementById('notifBtn')?.addEventListener('click', async () => {
+        try {
+            const res = await fetch('/api/notifications');
+            const notifs = await res.json();
+            if (notifs.length === 0) {
+                alert('No new notifications.');
+            } else {
+                const msg = notifs.map(n => `- ${n.title}: ${n.message}`).join('\n');
+                alert(`Recent Notifications:\n${msg}`);
+            }
+        } catch(e) { alert('Failed to fetch notifications.'); }
+    });
+
+    loadChildren();
+</script>
+</body></html>

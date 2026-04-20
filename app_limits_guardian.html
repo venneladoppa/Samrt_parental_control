@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Control &amp; Limits | Guardian</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1A237E",
+              "on-primary": "#ffffff",
+              "primary-container": "#E8EAF6",
+              "on-primary-container": "#1A237E",
+              "secondary": "#006a62",
+              "background": "#F8FAFC", // slate-50
+              "surface": "#ffffff",
+              "surface-container": "#F1F5F9", // slate-100
+              "on-surface": "#1E293B", // slate-800
+              "on-surface-variant": "#64748B", // slate-500
+              "outline": "#CBD5E1", // slate-300
+              "error": "#BA1A1A",
+              "error-container": "#FFDAD6"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "3xl": "2rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #F8FAFC;
+        color: #1E293B;
+      }
+      .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200">
+<div class="flex justify-between items-center px-6 h-16 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-primary/10">
+<img alt="Child profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW5fpREqeNeebyFBTGyhhd_l4QShf3oPJroapp4DZiXMjG-StrIB2lIkBe-svUhckCtMriXcaLRON8kn7jDPgEGramjX8OTOgnS78WF_q0MTdA7ZsMr2BIRrBzDpHLRzbHPUmI5So1P9JlJBM-wwBne4-m6ctf3YvmIG9xK-LjNcaPTbJyIkBFK9GJjg2Rz5P5wJhRpNxVRBbojWI5JUQHgNWm8iMDQaPjo5NkDLU0Nk_jJPM4YjjMzJzEXJJDzmvImvy3KH9VOuA"/>
+</div>
+<h1 class="text-xl font-extrabold tracking-tight text-primary font-headline italic">Guardian</h1>
+</div>
+<button id="notifBtn" class="w-10 h-10 flex items-center justify-center text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-screen-xl mx-auto">
+<!-- Page Header -->
+<section class="mb-8">
+  <h2 class="text-4xl font-extrabold font-headline tracking-tight text-primary mb-2">Control & Limits</h2>
+  <div id="childSelector" class="flex gap-4 overflow-x-auto py-4 no-scrollbar">
+      <!-- Populated by JS -->
+  </div>
+</section>
+<!-- Search Bar -->
+<section class="mb-8">
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</div>
+<input class="w-full h-14 pl-12 pr-4 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-slate-400 shadow-sm" placeholder="Search apps, games, or categories..." type="text"/>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- App List Section -->
+<div class="lg:col-span-8 space-y-6">
+<div class="flex items-center justify-between px-1">
+<h3 class="text-xl font-bold font-headline text-primary">Usage Insights</h3>
+<span class="text-sm font-semibold text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> Today's Trends
+                    </span>
+</div>
+      <div id="appListContainer" class="space-y-4">
+          <!-- Populated by JS -->
+          <div class="p-12 text-center animate-pulse text-slate-400 font-bold">
+              Analyzing app usage patterns...
+          </div>
+      </div>
+</div>
+<!-- Sidebar -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Always Allowed Section -->
+<div class="bg-primary p-7 rounded-[2.5rem] text-white shadow-xl shadow-primary/20">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-bold font-headline tracking-tight">Always Allowed</h3>
+        <span class="material-symbols-outlined text-emerald-400">verified_user</span>
+    </div>
+    <div id="alwaysAllowedList" class="space-y-3 mb-6">
+        <!-- Populated by JS -->
+    </div>
+    
+    <!-- Inline Add Card -->
+    <div class="bg-white/10 p-4 rounded-2xl border border-white/5 flex gap-2">
+        <input type="text" id="newAllowedApp" class="flex-1 bg-transparent border-none text-white text-sm placeholder:text-white/30 focus:ring-0 p-0" placeholder="Type app name...">
+        <button onclick="addAlwaysAllowedInline()" class="w-8 h-8 rounded-lg bg-white text-primary flex items-center justify-center hover:scale-105 active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-sm">add</span>
+        </button>
+    </div>
+</div>
+<!-- Blocked Categories -->
+<div class="bg-white p-7 rounded-[2.5rem] border border-slate-100 shadow-sm">
+    <h3 class="font-bold font-headline mb-5 text-primary">Blocked Categories</h3>
+    <div id="blockedCategoriesList" class="flex flex-wrap gap-2 mb-6">
+        <!-- Populated by JS -->
+    </div>
+    
+    <!-- Inline Add Row -->
+    <div class="flex gap-2">
+        <input type="text" id="newBlockedCategory" class="flex-1 h-10 px-4 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder:text-slate-400 focus:ring-1 focus:ring-primary focus:border-transparent transition-all" placeholder="e.g. Social, Gaming">
+        <button onclick="addBlockedCategoryInline()" class="h-10 px-4 bg-primary text-white rounded-xl flex items-center justify-center hover:opacity-90 active:scale-95 transition-all shadow-md">
+            <span class="material-symbols-outlined text-sm">add</span>
+        </button>
+    </div>
+</div>
+<!-- Set Duration Modal (Inline for this view) -->
+<div class="bg-white p-8 rounded-[2.5rem] border border-primary/10 shadow-2xl relative overflow-hidden">
+<button class="absolute top-6 right-6 text-slate-300 hover:text-slate-500">
+<span class="material-symbols-outlined">close</span>
+</button>
+<h4 class="font-bold text-primary font-headline text-xl mb-1">Set Duration</h4>
+<p id="durationAppName" class="text-sm text-on-surface-variant mb-8 font-bold text-secondary">Select an app above</p>
+<div class="flex items-center justify-center gap-6 mb-10">
+<div class="flex flex-col items-center">
+<input type="number" id="durationHours" class="w-16 text-center text-3xl font-black font-headline text-primary bg-transparent border-none p-0 focus:ring-0" value="00" min="0" max="23"/>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Hours</span>
+</div>
+<span class="text-3xl font-black text-slate-200">:</span>
+<div class="flex flex-col items-center">
+<input type="number" id="durationMinutes" class="w-16 text-center text-3xl font-black font-headline text-primary bg-transparent border-none p-0 focus:ring-0" value="00" min="0" max="59"/>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Minutes</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button id="btnResetLimit" class="py-4 bg-slate-100 rounded-2xl font-bold text-sm text-slate-600 hover:bg-slate-200 transition-all">Reset</button>
+<button id="btnSaveLimit" class="py-4 bg-primary text-white rounded-2xl font-bold text-sm shadow-xl shadow-primary/20 hover:opacity-90 transition-all">Save Limit</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-white/90 backdrop-blur-2xl border-t border-slate-200">
+<div class="max-w-screen-xl mx-auto flex justify-around items-center h-20 px-2">
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 group" href="parent_dashboard_guardian.html">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 group" href="timeline_guardian.html">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors">history</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Timeline</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-white rounded-2xl px-6 py-3 -mt-4 shadow-xl shadow-primary/30" href="app_limits_guardian.html">
+<span class="material-symbols-outlined mb-0.5" style="font-variation-settings: 'FILL' 1;">lock_open</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Control</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 group" href="ai_rules_guardian.html">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors">auto_awesome</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">AI Rules</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 group" href="#" onclick="fetch('/api/logout',{method:'POST'}).then(()=> { sessionStorage.removeItem('token'); window.location.href='login.html'; });return false;">
+<span class="material-symbols-outlined mb-1 group-hover:text-primary transition-colors">person</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Account</span>
+</a>
+</div>
+<!-- iPhone indicator gap -->
+<div class="h-4 bg-transparent"></div>
+</nav>
+
+<script>
+    (function() {
+        const originalFetch = window.fetch;
+        window.fetch = function() {
+            let [resource, config] = arguments;
+            if (config === undefined) config = {};
+            if (config.headers === undefined) config.headers = {};
+            const token = sessionStorage.getItem('token');
+            if (token && resource.toString().startsWith('/api/')) {
+                if (config.headers instanceof Headers) {
+                    config.headers.set('Authorization', 'Bearer ' + token);
+                } else {
+                    config.headers['Authorization'] = 'Bearer ' + token;
+                }
+            }
+            return originalFetch(resource, config);
+        };
+    })();
+
+    let activeChildId = null;
+
+    async function loadChildren() {
+        try {
+            const res = await fetch('/api/children');
+            if (res.status === 401) { window.location.href = 'login.html'; return; }
+            const children = await res.json();
+            const selector = document.getElementById('childSelector');
+            selector.innerHTML = '';
+
+            if (children.length === 0) {
+                document.getElementById('appListContainer').innerHTML = `
+                    <div class="p-8 text-center bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
+                        <p class="text-on-surface-variant font-bold">No children connected yet.</p>
+                        <a href="parent_dashboard_guardian.html" class="text-primary font-bold underline">Go to Dashboard to add a child</a>
+                    </div>`;
+                return;
+            }
+
+            children.forEach(child => {
+                const isSelected = activeChildId === child.id || (!activeChildId && children.indexOf(child) === 0);
+                if (isSelected && !activeChildId) activeChildId = child.id;
+
+                const btn = document.createElement('button');
+                btn.className = `flex flex-col items-center gap-2 flex-shrink-0 transition-all ${isSelected ? 'scale-105 opacity-100' : 'opacity-40 grayscale hover:grayscale-0 hover:opacity-100'}`;
+                btn.innerHTML = `
+                    <div class="w-16 h-16 rounded-full border-2 ${isSelected ? 'border-primary' : 'border-slate-200'} overflow-hidden p-0.5 bg-white">
+                        <div class="w-full h-full rounded-full bg-slate-100 flex items-center justify-center overflow-hidden">
+                            <span class="material-symbols-outlined text-slate-400 text-3xl">account_circle</span>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-primary">${child.name}</span>
+                `;
+                btn.onclick = () => {
+                    activeChildId = child.id;
+                    loadChildren(); // Refresh selector UI
+                    loadSettings(child.id);
+                };
+                selector.appendChild(btn);
+            });
+
+            if (activeChildId) loadSettings(activeChildId);
+        } catch(e) { console.error(e); }
+    }
+
+
+
+    async function updateSidebar() {
+        if (!activeChildId) return;
+        try {
+            const res = await fetch(`/api/policies/${activeChildId}`);
+            const policies = await res.json();
+            
+            const allowedList = document.getElementById('alwaysAllowedList');
+            const allowed = policies.filter(p => p.policy_type === 'always_allowed');
+            allowedList.innerHTML = allowed.length > 0 ? '' : '<p class="text-xs opacity-50 italic">No apps in allow-list</p>';
+            allowed.forEach(p => {
+                allowedList.innerHTML += `
+                    <li class="flex items-center justify-between text-sm bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/10 group">
+                        <span class="flex items-center gap-3"><span class="material-symbols-outlined text-lg">verified_user</span> ${p.app_name}</span>
+                        <button onclick="removePolicy('${p.app_name}', 'always_allowed')" class="text-white/30 hover:text-white"><span class="material-symbols-outlined text-sm">close</span></button>
+                    </li>
+                `;
+            });
+
+            const categoryList = document.getElementById('blockedCategoriesList');
+            const blocked = policies.filter(p => p.policy_type === 'blocked_category');
+            categoryList.innerHTML = blocked.length > 0 ? '' : '<p class="text-xs text-slate-400 italic">No blocked categories</p>';
+            blocked.forEach(p => {
+                categoryList.innerHTML += `
+                    <span class="px-4 py-2 bg-error-container text-error text-xs font-bold rounded-full flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">block</span> ${p.app_name}
+                        <button onclick="removePolicy('${p.app_name}', 'blocked_category')"><span class="material-symbols-outlined text-xs">close</span></button>
+                    </span>
+                `;
+            });
+        } catch(e) { console.error(e); }
+    }
+
+    window.removePolicy = async (appName, type) => {
+        await fetch(`/api/policies/${activeChildId}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ app_name: appName, policy_type: type })
+        });
+        updateSidebar();
+    };
+
+    window.addAlwaysAllowedInline = async () => {
+        const input = document.getElementById('newAllowedApp');
+        const app = input.value.trim();
+        if(app) {
+            await fetch(`/api/policies/${activeChildId}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ app_name: app, policy_type: 'always_allowed' })
+            });
+            input.value = '';
+            updateSidebar();
+        }
+    };
+
+    window.addBlockedCategoryInline = async () => {
+        const input = document.getElementById('newBlockedCategory');
+        const cat = input.value.trim();
+        if(cat) {
+            await fetch(`/api/policies/${activeChildId}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ app_name: cat, policy_type: 'blocked_category' })
+            });
+            input.value = '';
+            updateSidebar();
+        }
+    };
+    async function loadSettings(childId) {
+        const container = document.getElementById('appListContainer');
+        container.innerHTML = '<div class="p-12 text-center animate-pulse text-slate-400 font-bold">Synchronizing boundaries...</div>';
+
+        await updateSidebar();
+
+        try {
+            const [limitsRes, statsRes] = await Promise.all([
+                fetch(`/api/limits/${childId}`),
+                fetch(`/api/stats/${childId}?period=today`)
+            ]);
+            const limits = await limitsRes.json();
+            const stats = await statsRes.json();
+            container.innerHTML = '';
+
+            // Combine stats and limits to show cards
+            const apps = new Set([...stats.map(s => s.app_name), ...limits.map(l => l.app_name), 'Roblox', 'YouTube', 'TikTok']);
+            
+            apps.forEach(appName => {
+                const limit = limits.find(l => l.app_name === appName) || {max_duration_seconds: null, is_blocked: false};
+                const stat = stats.find(s => s.app_name === appName) || {total_duration: 0};
+                
+                const card = document.createElement('div');
+                card.className = `p-5 rounded-2xl flex items-center gap-5 shadow-sm border transition-all hover:shadow-md ${limit.is_blocked ? 'bg-slate-50 border-slate-200 opacity-80' : 'bg-white border-slate-100'}`;
+                
+                const usedMins = Math.floor(stat.total_duration / 60);
+                const limitMins = limit.max_duration_seconds ? Math.floor(limit.max_duration_seconds / 60) : null;
+                const progress = limitMins ? Math.min(100, (usedMins / limitMins) * 100) : 0;
+
+                card.innerHTML = `
+                    <div class="w-14 h-14 rounded-2xl ${limit.is_blocked ? 'bg-slate-200 text-slate-500' : 'bg-primary-container text-primary'} flex items-center justify-center">
+                        <span class="material-symbols-outlined text-3xl">${limit.is_blocked ? 'block' : 'videogame_asset'}</span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                             <h4 class="font-bold ${limit.is_blocked ? 'text-slate-500' : 'text-on-surface'}">${appName}</h4>
+                             ${limit.is_blocked ? '<span class="px-2 py-0.5 bg-error-container text-error text-[10px] font-extrabold rounded-md uppercase tracking-wider">Blocked</span>' : ''}
+                        </div>
+                        <div class="flex items-center gap-2 mt-2">
+                            <div class="h-2 w-24 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full ${progress > 90 ? 'bg-error' : 'bg-secondary'} rounded-full" style="width: ${progress}%"></div>
+                            </div>
+                            <span class="text-xs font-medium text-on-surface-variant italic">${usedMins}m today ${limitMins ? '(of '+limitMins+'m)' : ''}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        ${!limit.is_blocked ? `
+                        <button onclick="selectAppForLimit('${appName}', ${limitMins || 0})" class="h-10 px-4 rounded-full bg-primary text-white text-sm font-bold hover:bg-opacity-90 active:scale-95 transition-all shadow-sm">
+                            ${limitMins ? limitMins + 'm' : 'Set Limit'}
+                        </button>` : ''}
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input onchange="toggleBlock('${appName}', !this.checked)" type="checkbox" ${limit.is_blocked ? '' : 'checked'} class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+                        </label>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        } catch(e) { console.error(e); }
+    }
+
+    window.selectAppForLimit = (appName, currentMins) => {
+        document.getElementById('durationAppName').innerText = `Daily limit for ${appName}`;
+        document.getElementById('durationAppName').dataset.selectedApp = appName;
+        
+        const hrs = Math.floor(currentMins / 60);
+        const mins = currentMins % 60;
+        
+        document.getElementById('durationHours').value = hrs.toString().padStart(2, '0');
+        document.getElementById('durationMinutes').value = mins.toString().padStart(2, '0');
+    };
+
+    document.getElementById('btnSaveLimit')?.addEventListener('click', async () => {
+        const appName = document.getElementById('durationAppName').dataset.selectedApp;
+        if (!appName) { alert('Select an app from the list first.'); return; }
+        
+        const hrs = parseInt(document.getElementById('durationHours').value) || 0;
+        const mins = parseInt(document.getElementById('durationMinutes').value) || 0;
+        const totalSeconds = (hrs * 3600) + (mins * 60);
+        
+        await fetch(`/api/limits/${activeChildId}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ app_name: appName, max_duration_seconds: totalSeconds })
+        });
+        loadSettings(activeChildId);
+        alert(`Limit saved for ${appName}`);
+    });
+
+    document.getElementById('btnResetLimit')?.addEventListener('click', () => {
+        document.getElementById('durationHours').value = '00';
+        document.getElementById('durationMinutes').value = '00';
+    });
+
+    // Notification logic
+    document.getElementById('notifBtn')?.addEventListener('click', async () => {
+        try {
+            const res = await fetch('/api/notifications');
+            const notifs = await res.json();
+            if (notifs.length === 0) {
+                alert('No new notifications.');
+            } else {
+                const msg = notifs.map(n => `- ${n.title}: ${n.message}`).join('\n');
+                alert(`Recent Notifications:\n${msg}`);
+            }
+        } catch(e) { alert('Failed to fetch notifications.'); }
+    });
+
+    window.toggleBlock = async (appName, isBlocked) => {
+        await fetch(`/api/limits/${activeChildId}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ app_name: appName, is_blocked: isBlocked })
+        });
+        loadSettings(activeChildId);
+    };
+
+    // Basic search filtering
+    document.querySelector('input[type="text"]').addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('#appListContainer > div').forEach(card => {
+            const name = card.querySelector('h4').innerText.toLowerCase();
+            card.style.display = name.includes(term) ? 'flex' : 'none';
+        });
+    });
+
+    loadChildren();
+</script>
+</body></html>

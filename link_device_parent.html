@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guardian - Link New Device</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#eff1f3",
+              "outline-variant": "#c6c5d4",
+              "on-primary-fixed-variant": "#343d96",
+              "surface-container-highest": "#e0e3e5",
+              "on-secondary-container": "#575b7f",
+              "background": "#f7f9fb",
+              "tertiary-container": "#5c1800",
+              "inverse-primary": "#bdc2ff",
+              "tertiary": "#380b00",
+              "surface-container-high": "#e6e8ea",
+              "primary": "#000666",
+              "on-tertiary": "#ffffff",
+              "surface-bright": "#f7f9fb",
+              "secondary-container": "#d2d4ff",
+              "on-tertiary-container": "#e17c5a",
+              "on-error": "#ffffff",
+              "tertiary-fixed-dim": "#ffb59d",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-container": "#8690ee",
+              "on-secondary-fixed": "#151839",
+              "on-background": "#191c1e",
+              "primary-fixed": "#e0e0ff",
+              "tertiary-fixed": "#ffdbd0",
+              "surface": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "on-surface-variant": "#454652",
+              "inverse-surface": "#2d3133",
+              "secondary": "#585c80",
+              "error": "#ba1a1a",
+              "surface-container": "#eceef0",
+              "on-error-container": "#93000a",
+              "surface-tint": "#4c56af",
+              "on-secondary-fixed-variant": "#414467",
+              "error-container": "#ffdad6",
+              "outline": "#767683",
+              "primary-fixed-dim": "#bdc2ff",
+              "surface-dim": "#d8dadc",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed": "#390c00",
+              "secondary-fixed": "#e0e0ff",
+              "on-tertiary-fixed-variant": "#7b2e12",
+              "surface-variant": "#e0e3e5",
+              "surface-container-low": "#f2f4f6",
+              "primary-container": "#1a237e",
+              "on-secondary": "#ffffff",
+              "secondary-fixed-dim": "#c1c3ed",
+              "on-primary-fixed": "#000767"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift {
+            background: linear-gradient(180deg, #f7f9fb 0%, #f2f4f6 100%);
+        }
+        .scanner-mask {
+            mask: linear-gradient(to right, black 2px, transparent 2px) 0 0,
+                  linear-gradient(to bottom, black 2px, transparent 2px) 0 0,
+                  linear-gradient(to left, black 2px, transparent 2px) 100% 0,
+                  linear-gradient(to bottom, black 2px, transparent 2px) 100% 0,
+                  linear-gradient(to right, black 2px, transparent 2px) 0 100%,
+                  linear-gradient(to top, black 2px, transparent 2px) 0 100%,
+                  linear-gradient(to left, black 2px, transparent 2px) 100% 100%,
+                  linear-gradient(to top, black 2px, transparent 2px) 100% 100%;
+            mask-repeat: no-repeat;
+            mask-size: 20px 20px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-6 py-4 bg-[#f2f4f6] dark:bg-[#1a1c1e] tonal-shift">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-[#e6e8ea]/50 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-on-surface">arrow_back</span>
+</button>
+<h1 class="text-xl font-extrabold text-[#000666] font-manrope tracking-tight">Link New Device</h1>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#000666]">shield</span>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto">
+<section class="mb-10 text-center">
+<h2 class="text-2xl font-bold tracking-tight mb-3 text-on-surface">Secure Pairing</h2>
+<p class="text-on-surface-variant leading-relaxed">
+    Select a child profile and enter the 6-digit code shown on their device.
+</p>
+<div class="mt-6 flex justify-center">
+    <select id="childSelector" class="w-full max-w-sm px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary shadow-sm font-bold">
+        <option value="">Loading child profiles...</option>
+    </select>
+</div>
+</section>
+<!-- Alternative Input Section -->
+<section class="bg-surface-container-low rounded-[2rem] p-8">
+<div class="flex items-center gap-3 mb-6">
+<div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+<span class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Or enter manually</span>
+<div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 ml-2" for="pairing-code">Pairing Code</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-highest border-0 border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl px-6 py-5 text-2xl font-bold tracking-[0.5em] text-center transition-all placeholder:text-outline-variant/50 placeholder:tracking-normal" id="pairing-code" maxlength="6" placeholder="0 0 0 0 0 0" type="text"/>
+<div class="absolute inset-y-0 right-4 flex items-center pointer-events-none opacity-0 group-focus-within:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary">edit</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-5 rounded-xl font-bold text-lg hover:shadow-[0_8px_32px_rgba(0,6,102,0.15)] transition-all active:scale-[0.98] flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">link</span>
+                    Link Device
+                </button>
+</div>
+</section>
+<!-- Help/Privacy Note -->
+<div class="mt-8 text-center flex items-center justify-center gap-2 text-on-surface-variant/60">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="text-xs">End-to-end encrypted device linking</span>
+</div>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#f7f9fb]/80 backdrop-blur-xl shadow-[0_-8px_32px_rgba(0,6,102,0.06)] rounded-t-3xl md:hidden">
+<a class="flex flex-col items-center justify-center text-[#454652] px-5 py-2 hover:text-[#000666] transition-all duration-300" href="parent_dashboard_guardian.html">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-manrope text-[11px] font-bold uppercase tracking-wider">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#000666] text-[#ffffff] rounded-2xl px-5 py-2 transition-all duration-300" href="link_device_parent.html">
+<span class="material-symbols-outlined mb-1">devices</span>
+<span class="font-manrope text-[11px] font-bold uppercase tracking-wider">Devices</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#454652] px-5 py-2 hover:text-[#000666] transition-all duration-300" href="ai_rules_guardian.html">
+<span class="material-symbols-outlined mb-1">security</span>
+<span class="font-manrope text-[11px] font-bold uppercase tracking-wider">Rules</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#454652] px-5 py-2 hover:text-[#000666] transition-all duration-300" href="#" onclick="fetch('/api/logout', {method: 'POST'}).then(() => { sessionStorage.removeItem('token'); window.location.href = 'login.html'; }); return false;">
+<span class="material-symbols-outlined mb-1">logout</span>
+<span class="font-manrope text-[11px] font-bold uppercase tracking-wider">Logout</span>
+</a>
+</nav>
+
+<script>
+    (function() {
+        const originalFetch = window.fetch;
+        window.fetch = function() {
+            let [resource, config] = arguments;
+            if (config === undefined) config = {};
+            if (config.headers === undefined) config.headers = {};
+            const token = sessionStorage.getItem('token');
+            if (token && resource.toString().startsWith('/api/')) {
+                if (config.headers instanceof Headers) {
+                    config.headers.set('Authorization', 'Bearer ' + token);
+                } else {
+                    config.headers['Authorization'] = 'Bearer ' + token;
+                }
+            }
+            return originalFetch(resource, config);
+        };
+    })();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const selector = document.getElementById('childSelector');
+    
+    // Load existing children
+    async function loadChildren() {
+        try {
+            const res = await fetch('/api/children');
+            const data = await res.json();
+            selector.innerHTML = '<option value="">Select a Child Profile</option>';
+            data.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.id;
+                opt.innerText = c.name;
+                selector.appendChild(opt);
+            });
+        } catch(e) { console.error(e); }
+    }
+    loadChildren();
+
+    // Link Handler
+    const linkBtn = document.querySelector('button.bg-primary');
+    linkBtn.addEventListener('click', async () => {
+        const child_id = selector.value;
+        const code = document.getElementById('pairing-code').value;
+        
+        if (!child_id || !code) {
+            alert('Please select a child and enter a pairing code.');
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/devices/pair', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ child_id, code })
+            });
+
+            if (res.ok) {
+                alert('Device linked successfully!');
+                window.location.href = 'parent_dashboard_guardian.html';
+            } else {
+                const err = await res.json();
+                alert(err.error || 'Pairing failed. Please check the code.');
+            }
+        } catch(e) { alert('Network error.'); }
+    });
+
+    // Back button
+    document.querySelector('header button').onclick = () => window.history.back();
+});
+</script>
+</body></html>

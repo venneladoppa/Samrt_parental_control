@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guardian - Parent Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1A237E",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#E8EAF6",
+                        "on-primary-container": "#1A237E",
+                        "secondary": "#00695C",
+                        "surface": "#F8FAFC", // slate-50
+                        "surface-container": "#FFFFFF",
+                        "outline": "#E2E8F0",
+                        "on-surface": "#0F172A",
+                        "on-surface-variant": "#475569",
+                        "tertiary": "#EF6C00",
+                        "tertiary-container": "#FFF3E0"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "3xl": "2rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-header {
+            background: rgba(248, 250, 252, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gauge-track {
+            stroke: #F1F5F9;
+        }
+        .gauge-progress {
+            stroke: #00695C;
+            stroke-linecap: round;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 glass-header border-b border-slate-200">
+<div class="flex justify-between items-center px-6 h-16 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-slate-200">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGGeQgbNL7wp2rOTBAzL3OYopPxAIwoEhmTLsr-wgnkSI8DIyED0ACOM6X2r1ADR8-cqtB-u6J6XV-oD_YbdgLUrF8DeWL9HcO8HWnIprsW3wcAfVQLiW0kacnKE7o6d9FthccgdDIxzE_xRJ3wj6WZs20EpJrLQptUKiIatGV5vKb7zstV8inCVt-_VyHCmklzdDiFip9uc0HX1HjopV2v-duTZ0lD_fPvap89wnw3Z2sQG5vkFlz9j0UhU6LJYmq7Ck_6J6OE0I"/>
+</div>
+<h1 class="text-xl font-extrabold tracking-tight text-primary font-headline">Guardian</h1>
+</div>
+<button id="notifBtn" class="text-slate-500 hover:bg-slate-100 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined text-2xl">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-screen-xl mx-auto space-y-8">
+<!-- Hero Section -->
+<section class="space-y-1">
+<h2 class="font-headline text-3xl font-extrabold tracking-tight text-primary">Everything is stable.</h2>
+<p id="usageHeroSubtitle" class="text-on-surface-variant font-medium text-lg italic">Select a child below to view specific usage details.</p>
+</section>
+<!-- Main Dashboard Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Usage Gauge Card -->
+<div id="usageCard" class="hidden md:col-span-8 bg-surface-container rounded-2xl p-8 flex flex-wrap items-center justify-between shadow-sm border border-slate-100">
+<div class="space-y-4 md:max-w-xs text-center md:text-left">
+<span class="inline-block px-3 py-1 rounded-full bg-primary-container text-primary text-[10px] font-bold tracking-widest uppercase">Usage Summary</span>
+<h3 id="usageSummaryText" class="font-headline text-3xl font-bold leading-tight">No child selected.</h3>
+<div class="flex items-center gap-2 justify-center md:justify-start">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<p class="text-on-surface-variant font-medium text-sm">Live Activity Tracked</p>
+</div>
+</div>
+        <div class="relative w-64 h-64 mt-8 md:mt-0 flex items-center justify-center">
+            <svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
+                <circle class="gauge-track" cx="50" cy="50" fill="transparent" r="42" stroke-width="8"></circle>
+                <circle class="gauge-progress" cx="50" cy="50" fill="transparent" r="42" stroke-dasharray="263.89" stroke-dashoffset="263.89" stroke-width="8"></circle>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center rotate-0">
+                <span id="totalUsageHrs" class="font-headline text-4xl font-extrabold text-primary animate-pulse">0h 0m</span>
+                <span id="usageGoalText" class="text-on-surface-variant text-[10px] font-bold tracking-widest uppercase mt-1">OF 4h 00m</span>
+            </div>
+        </div>
+        
+        <!-- Embedded App Usage Breakdown (Appears within the same row/card) -->
+        <div id="appBreakdownSection" class="hidden border-t border-slate-100 pt-6 mt-6 w-full md:col-span-full">
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="font-headline font-bold text-lg text-primary">App Consumption Breakdown</h4>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Today's Data</span>
+            </div>
+            <div id="appBreakdownList" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+<!-- Quick Controls -->
+<div id="controlsCard" class="hidden md:col-span-4">
+<div class="bg-primary rounded-2xl p-6 text-white h-full flex flex-col">
+<h4 class="font-headline font-bold text-lg mb-6">Quick Controls</h4>
+<div class="space-y-3 flex-1 flex flex-col">
+                <button id="btnPause" class="w-full bg-white/10 border border-white/10 rounded-xl py-4 px-6 flex items-center justify-between hover:bg-white/20 transition-all active:scale-95">
+                    <span class="font-bold text-sm">Pause Device</span>
+                    <span class="material-symbols-outlined">pause_circle</span>
+                </button>
+                <button id="btnAddTime" class="w-full bg-white/10 border border-white/10 rounded-xl py-4 px-6 flex items-center justify-between hover:bg-white/20 transition-all active:scale-95">
+                    <span class="font-bold text-sm">Add 15m</span>
+                    <span class="material-symbols-outlined">more_time</span>
+                </button>
+                <button id="btnLockApps" class="w-full bg-white/10 border border-white/10 rounded-xl py-4 px-6 flex items-center justify-between hover:bg-white/20 transition-all active:scale-95">
+                    <span class="font-bold text-sm">Lock Apps</span>
+                    <span class="material-symbols-outlined">lock</span>
+                </button>
+</div>
+</div>
+</div>
+<!-- Recent Insights -->
+<div class="md:col-span-6 bg-surface-container rounded-2xl p-6 shadow-sm border border-slate-100">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-headline font-bold text-xl">Recent Insights</h4>
+<span class="material-symbols-outlined text-slate-400">history</span>
+</div>
+<div class="space-y-3">
+<div id="recentInsightsList" class="space-y-3">
+        <div class="p-8 text-center bg-slate-100/30 rounded-xl border border-dashed border-slate-200">
+            <p class="text-sm text-on-surface-variant font-bold">No child selected.</p>
+            <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-bold">Please select a profile to view activity</p>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- Profile Info & Management -->
+<div class="md:col-span-6 bg-surface-container rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col relative h-full">
+<div class="flex justify-between items-start mb-6">
+<h4 class="font-headline font-bold text-xl">Managed Profiles</h4>
+<span id="profileCountLabel" class="px-3 py-1 bg-primary-container text-primary rounded-full text-[10px] font-bold tracking-widest uppercase">1 Child Linked</span>
+</div>
+
+<div class="space-y-4 flex-1 flex flex-col justify-end">
+<!-- Active Child Profile Container -->
+<div id="childrenContainer" class="space-y-4 w-full">
+    <!-- Children will be loaded here via JS -->
+    <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 text-center animate-pulse">
+        <p class="text-on-surface-variant text-sm font-bold">Loading Profiles...</p>
+    </div>
+</div>
+
+<!-- Add Child Prominent Area -->
+<button class="w-full p-6 border-2 border-dashed border-slate-300 rounded-xl bg-transparent hover:bg-slate-50 hover:border-primary/50 transition-all flex flex-col items-center justify-center text-slate-500 hover:text-primary group mt-4" onclick="document.getElementById('addChildModal').classList.remove('hidden')">
+    <span class="material-symbols-outlined text-3xl mb-2 group-hover:scale-110 transition-transform">person_add</span>
+    <span class="font-bold text-sm">Add New Child</span>
+    <span class="text-xs text-on-surface-variant font-medium mt-1 group-hover:text-primary/80">Connect another profile to your dashboard</span>
+</button>
+</div>
+    </div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl border-t border-slate-200 px-4 pb-8 pt-3 flex justify-around items-center">
+<!-- Insights (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary text-white rounded-xl px-6 py-2 transition-all active:scale-95" href="parent_dashboard_guardian.html">
+<span class="material-symbols-outlined text-xl">grid_view</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-0.5">Insights</span>
+</a>
+<!-- Timeline -->
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-primary transition-all active:scale-95" href="timeline_guardian.html">
+<span class="material-symbols-outlined text-xl">history</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-0.5">Timeline</span>
+</a>
+<!-- Control -->
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-primary transition-all active:scale-95" href="app_limits_guardian.html">
+<span class="material-symbols-outlined text-xl">lock_person</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-0.5">Control</span>
+</a>
+<!-- AI Rules -->
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-primary transition-all active:scale-95" href="ai_rules_guardian.html">
+<span class="material-symbols-outlined text-xl">smart_toy</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-0.5">AI Rules</span>
+</a>
+<!-- Account -->
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-primary transition-all active:scale-95" href="#" onclick="fetch('/api/logout', {method: 'POST'}).then(() => { sessionStorage.removeItem('token'); window.location.href = 'login.html'; }); return false;">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-0.5">Account</span>
+</a>
+</nav>
+
+<!-- Add Child Modal -->
+<div id="addChildModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+    <div class="bg-surface-container rounded-2xl p-6 w-full max-w-md shadow-xl border border-slate-100">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline font-bold text-xl text-on-surface">Add Child Profile</h3>
+            <button class="text-slate-400 hover:text-on-surface" onclick="document.getElementById('addChildModal').classList.add('hidden')">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <form class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Child's Name</label>
+                <input type="text" id="newChildName" class="w-full px-4 py-3 bg-surface-container-low border border-outline/30 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm" placeholder="e.g., Emma" />
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Age</label>
+                    <input type="number" id="newChildAge" class="w-full px-4 py-3 bg-surface-container-low border border-outline/30 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm" placeholder="e.g., 10" />
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Grade</label>
+                    <input type="text" id="newChildGrade" class="w-full px-4 py-3 bg-surface-container-low border border-outline/30 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm" placeholder="e.g., 5th Grade" />
+                </div>
+            </div>
+            <div class="pt-4">
+                <button type="button" id="saveChildBtn" class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors">Save Profile</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add Device Modal -->
+<div id="addDeviceModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+    <div class="bg-surface-container rounded-2xl p-6 w-full max-w-md shadow-xl border border-slate-100">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline font-bold text-xl text-on-surface" id="deviceNameHeader">Connect New Device</h3>
+            <button class="text-slate-400 hover:text-on-surface" onclick="document.getElementById('addDeviceModal').classList.add('hidden')">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="space-y-6">
+            <div class="text-center">
+                <p class="text-sm text-on-surface-variant mb-4">Enter the pairing code shown on the child's device:</p>
+                <div class="relative mb-6">
+                    <input type="text" id="pairingCodeInput" class="w-full text-center text-3xl font-mono font-bold tracking-[0.2em] py-4 bg-surface-container-low border-2 border-primary/20 rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all uppercase" placeholder="--- ---" maxlength="15" />
+                    <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-primary/40">input</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 py-4 border-t border-slate-100">
+                <div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-primary">qr_code_scanner</span>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-on-surface">Scan QR Code instead?</p>
+                    <p class="text-xs text-on-surface-variant">Click here to open the camera (simulated)</p>
+                </div>
+                <button class="ml-auto text-primary text-sm font-bold hover:underline" onclick="alert('Camera access requested. For this demo, please enter the code manually.')">SCAN</button>
+            </div>
+            <div class="pt-2">
+                <button type="button" id="confirmPairingBtn" class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/20 active:scale-[0.98]">Confirm Connection</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const originalFetch = window.fetch;
+        window.fetch = function() {
+            let [resource, config] = arguments;
+            if (config === undefined) config = {};
+            if (config.headers === undefined) config.headers = {};
+            const token = sessionStorage.getItem('token');
+            if (token && resource.toString().startsWith('/api/')) {
+                if (config.headers instanceof Headers) {
+                    config.headers.set('Authorization', 'Bearer ' + token);
+                } else {
+                    config.headers['Authorization'] = 'Bearer ' + token;
+                }
+            }
+            return originalFetch(resource, config);
+        };
+    })();
+
+    let activeChildId = null;
+
+    let statsInterval = null;
+    let pairingPendingChildId = null;
+
+    async function selectChild(childName, childId, goalSeconds, isPausedInitial) {
+        activeChildId = childId;
+        if (statsInterval) clearInterval(statsInterval);
+        
+        // Initialize the pause button state based on the actual backend records
+        const btnSpan = document.getElementById('btnPause').querySelector('span');
+        const btnIcon = document.getElementById('btnPause').querySelector('.material-symbols-outlined');
+        if (isPausedInitial) {
+            btnSpan.innerText = 'Resume Device';
+            btnIcon.innerText = 'play_circle';
+        } else {
+            btnSpan.innerText = 'Pause Device';
+            btnIcon.innerText = 'pause_circle';
+        }
+        
+        try {
+            // Show the cards
+            document.getElementById('usageCard').classList.remove('hidden');
+            document.getElementById('appBreakdownSection').classList.remove('hidden');
+            document.getElementById('controlsCard').classList.remove('hidden');
+
+            await updateStats(childName, childId, goalSeconds);
+            await updateRecentInsights(childId);
+            
+            // Start lively polling (Both stats and insights)
+            statsInterval = setInterval(async () => {
+                await updateStats(childName, childId, goalSeconds);
+                await updateRecentInsights(childId);
+            }, 5000);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch(e) { console.error(e); }
+    }
+
+    async function updateStats(childName, childId, goalSeconds) {
+        try {
+            const res = await fetch(`/api/stats/${childId}?period=today`);
+            const stats = await res.json();
+            
+            // Hero section update
+            document.getElementById('usageHeroSubtitle').innerText = `Viewing live details for ${childName}.`;
+            document.getElementById('usageHeroSubtitle').classList.remove('italic');
+            
+            // Summary text
+            const topApp = stats.length > 0 ? stats[0].app_name : "N/A";
+            document.getElementById('usageSummaryText').innerHTML = stats.length > 0 
+                ? `${childName} is currently using <span class="text-secondary font-bold">${topApp}</span>.`
+                : `${childName} has no recent activity recorded.`;
+
+            // Calculate totals for gauge and breakdown
+            let totalSeconds = 0;
+            const breakdownContainer = document.getElementById('appBreakdownList');
+            breakdownContainer.innerHTML = '';
+
+            if (stats.length === 0) {
+                breakdownContainer.innerHTML = '<div class="p-8 text-center text-slate-400 italic">No usage data for specific apps yet.</div>';
+            }
+
+            stats.forEach(s => {
+                totalSeconds += s.total_duration;
+                
+                // Add to breakdown UI
+                const hrs = Math.floor(s.total_duration / 3600);
+                const mins = Math.floor((s.total_duration % 3600) / 60);
+                const timeStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
+                
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-primary/20 transition-all";
+                item.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                            <span class="material-symbols-outlined text-primary">${s.app_name === 'TikTok' ? 'videogame_asset' : (s.app_name === 'YouTube' ? 'play_circle' : 'apps')}</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm text-on-surface">${s.app_name}</p>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Digital Service</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-headline font-extrabold text-primary">${timeStr}</p>
+                        <div class="h-1 w-20 bg-slate-200 rounded-full mt-1 overflow-hidden">
+                            <div class="h-full bg-secondary" style="width: ${Math.min(100, (s.total_duration / 3600) * 100)}%"></div>
+                        </div>
+                    </div>
+                `;
+                breakdownContainer.appendChild(item);
+            });
+
+            const totalHrs = Math.floor(totalSeconds / 3600);
+            const totalMins = Math.floor((totalSeconds % 3600) / 60);
+            
+            // Update total usage text
+            document.getElementById('totalUsageHrs').innerText = `${totalHrs}h ${totalMins}m`;
+
+            // Update gauge visual (Circle circumference is ~264)
+            const activeGoal = goalSeconds || 7200; // Use child's goal or default to 2h
+            const progress = Math.min(100, (totalSeconds / activeGoal) * 100);
+            const offset = 263.89 - (263.89 * progress / 100);
+            
+            const gaugeProgress = document.querySelector('.gauge-progress');
+            if (gaugeProgress) {
+                gaugeProgress.setAttribute('stroke-dashoffset', offset);
+                gaugeProgress.style.transition = 'stroke-dashoffset 1s ease-in-out';
+            }
+            
+            // Update time remaining text in hero if applicable
+            const remainingSec = Math.max(0, activeGoal - totalSeconds);
+            const remHrs = Math.floor(remainingSec / 3600);
+            const remMins = Math.floor((remainingSec % 3600) / 60);
+            
+            const goalText = document.getElementById('usageHeroSubtitle');
+            if (goalText) {
+                const goalHrs = Math.floor(activeGoal / 3600);
+                goalText.innerText = `Viewing today's usage for ${childName} (Goal: ${goalHrs}h).`;
+            }
+            
+        } catch(e) { console.error(e); }
+    }
+
+    async function updateRecentInsights(childId) {
+        try {
+            const res = await fetch(`/api/stats/timeline/${childId}`);
+            const timeline = await res.json();
+            const insightContainer = document.getElementById('recentInsightsList');
+            
+            if (timeline.length === 0) {
+                insightContainer.innerHTML = `
+                <div class="p-8 text-center bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                    <p class="text-sm text-on-surface-variant font-medium">No activity highlights yet.</p>
+                </div>`;
+                return;
+            }
+
+            insightContainer.innerHTML = '';
+            timeline.slice(0, 3).forEach(item => {
+                const timeStr = new Date(item.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const isWarning = item.duration_seconds > 1800; // Mock logic: > 30 mins session is a warning
+                
+                const html = `
+                <div class="flex items-start gap-4 p-4 rounded-xl transition-all hover:bg-slate-50 ${isWarning ? 'bg-tertiary-container text-tertiary' : 'bg-slate-100 text-on-surface'}">
+                    <span class="material-symbols-outlined mt-0.5">${isWarning ? 'warning' : 'hourglass_top'}</span>
+                    <div class="flex-1">
+                        <p class="font-bold text-sm">${isWarning ? 'High Usage Alert' : 'Active Session'}</p>
+                        <p class="text-xs ${isWarning ? 'opacity-90' : 'text-on-surface-variant'}">${item.app_name} was used for ${Math.floor(item.duration_seconds/60)}m on ${item.device_name}.</p>
+                    </div>
+                    <span class="text-[10px] font-bold whitespace-nowrap">${timeStr}</span>
+                </div>`;
+                insightContainer.innerHTML += html;
+            });
+        } catch(e) { console.error(e); }
+    }
+
+    async function deleteChild(childId) {
+        if (!confirm('Are you sure you want to delete this profile and all associated devices?')) return;
+        try {
+            const res = await fetch(`/api/children/${childId}`, { method: 'DELETE' });
+            if(res.ok) loadProfiles();
+            else alert('Failed to delete profile.');
+        } catch(e) { console.error(e); }
+    }
+
+    async function deleteDevice(deviceId) {
+        if (!confirm('Are you sure you want to disconnect this device?')) return;
+        try {
+            const res = await fetch(`/api/devices/${deviceId}`, { method: 'DELETE' });
+            if(res.ok) loadProfiles();
+            else alert('Failed to delete device.');
+        } catch(e) { console.error(e); }
+    }
+
+    function openAddDeviceModal(childName, childId) {
+        pairingPendingChildId = childId;
+        document.getElementById('deviceNameHeader').innerText = `Connect Devices to ${childName}`;
+        document.getElementById('pairingCodeInput').value = '';
+        document.getElementById('addDeviceModal').classList.remove('hidden');
+    }
+
+    async function loadProfiles() {
+        try {
+            const res = await fetch('/api/children');
+            if (res.status === 401) {
+                window.location.href = 'login.html';
+                return;
+            }
+            const children = await res.json();
+            const container = document.getElementById('childrenContainer');
+            container.innerHTML = '';
+            
+            const countLabel = document.getElementById('profileCountLabel');
+            const gaugeContainer = document.querySelector('.relative.w-64.h-64');
+
+            if (children.length === 0) {
+                if (countLabel) countLabel.innerText = "no child connected";
+                if (gaugeContainer) gaugeContainer.classList.add('hidden');
+                document.getElementById('usageSummaryText').innerText = "No child connected.";
+                document.getElementById('usageHeroSubtitle').innerText = "Please link a child profile to see usage details.";
+                container.innerHTML = `<div class="p-4 border border-slate-200 rounded-xl bg-slate-50 text-center"><p class="text-on-surface-variant text-sm font-bold">No profiles added yet.</p></div>`;
+            } else {
+                if (countLabel) countLabel.innerText = `${children.length} Child${children.length === 1 ? '' : 'ren'} Linked`;
+                if (gaugeContainer) gaugeContainer.classList.remove('hidden');
+            }
+
+            children.forEach(child => {
+                let devicesHtml = '';
+                if (child.devices && child.devices.length > 0) {
+                    child.devices.forEach(device => {
+                        devicesHtml += `
+                        <div class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg flex items-center gap-2 group relative pr-6">
+                            <span class="material-symbols-outlined text-sm">${device.type === 'smartphone' ? 'smartphone' : (device.type === 'laptop_mac' ? 'laptop_mac' : 'devices')}</span>
+                            <span class="text-xs font-bold">${device.name}</span>
+                            <button onclick="deleteDevice(${device.id})" class="absolute right-1 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity" title="Disconnect Device">
+                                <span class="material-symbols-outlined text-[14px]">close</span>
+                            </button>
+                        </div>
+                        `;
+                    });
+                }
+                
+                const childHtml = `
+                <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 mb-4 inline-block w-full">
+                    <div class="flex justify-between items-start">
+                        <div>
+                        <h4 class="font-headline font-bold text-lg">${child.name}</h4>
+                        <p class="text-on-surface-variant text-sm">${child.age} Years Old • ${child.grade}</p>
+                        </div>
+                        <div class="flex flex-col items-end gap-2">
+                            <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-[10px] font-bold tracking-widest uppercase">Active Profile</span>
+                            <div class="flex gap-2">
+                                <button class="text-slate-400 hover:text-primary transition-colors flex items-center gap-1" title="Edit details">
+                                    <span class="material-symbols-outlined text-[16px]">edit</span>
+                                    <span class="text-[10px] font-bold">EDIT</span>
+                                </button>
+                                <button onclick="deleteChild(${child.id})" class="text-slate-400 hover:text-red-500 transition-colors flex items-center gap-1" title="Delete Profile">
+                                    <span class="material-symbols-outlined text-[16px]">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex flex-wrap gap-2 items-center">
+                        ${devicesHtml}
+                        <button class="px-3 py-1.5 bg-secondary text-white rounded-lg flex items-center gap-1 hover:bg-secondary/90 transition-colors shadow-sm" onclick="selectChild('${child.name}', ${child.id}, ${child.daily_goal_seconds}, ${child.devices.some(d => d.status === 'paused')})">
+                            <span class="material-symbols-outlined text-sm">analytics</span>
+                            <span class="text-xs font-bold uppercase">View Usage</span>
+                        </button>
+                        <button class="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-lg flex items-center gap-1 hover:bg-primary/20 transition-colors" onclick="openAddDeviceModal('${child.name}', ${child.id})">
+                            <span class="material-symbols-outlined text-sm">add_circle</span>
+                            <span class="text-xs font-bold uppercase">Add Device</span>
+                        </button>
+                    </div>
+                </div>
+                `;
+                container.innerHTML += childHtml;
+            });
+        } catch (e) {
+            console.error('Error fetching children', e);
+            document.getElementById('childrenContainer').innerHTML = `<p class="text-error text-center font-bold">Failed to connect to Local Backend Server</p>`;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadProfiles();
+        
+        // Notification logic
+        document.getElementById('notifBtn')?.addEventListener('click', async () => {
+            try {
+                const res = await fetch('/api/notifications');
+                const notifs = await res.json();
+                if (notifs.length === 0) {
+                    alert('No new notifications.');
+                } else {
+                    const msg = notifs.map(n => `- ${n.title}: ${n.message}`).join('\n');
+                    alert(`Recent Notifications:\n${msg}`);
+                }
+            } catch(e) { alert('Failed to fetch notifications.'); }
+        });
+
+        // Quick Controls logic
+        document.getElementById('btnPause')?.addEventListener('click', async () => {
+            if (!activeChildId) return;
+            const btn = document.getElementById('btnPause');
+            const isPaused = btn.querySelector('span').innerText.includes('Resume');
+            const newStatus = isPaused ? 'active' : 'paused';
+            
+            try {
+                // Fetch child's devices
+                const res = await fetch('/api/children');
+                const children = await res.json();
+                const child = children.find(c => c.id === activeChildId);
+                if (child && child.devices.length > 0) {
+                    // Update all devices for this child
+                    let isAnyPaused = false;
+                    for (const dev of child.devices) {
+                        const dRes = await fetch(`/api/devices/${dev.id}/status`, {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({ status: newStatus })
+                        });
+                        const d = await dRes.json();
+                        if (d.status === 'paused') isAnyPaused = true;
+                    }
+                    
+                    const btnSpan = btn.querySelector('span');
+                    const btnIcon = btn.querySelector('.material-symbols-outlined');
+                    if (isAnyPaused) {
+                        btnSpan.innerText = 'Resume Device';
+                        btnIcon.innerText = 'play_circle';
+                    } else {
+                        btnSpan.innerText = 'Pause Device';
+                        btnIcon.innerText = 'pause_circle';
+                    }
+                } else {
+                    alert('No devices found for this child.');
+                }
+            } catch(e) { console.error(e); }
+        });
+
+        document.getElementById('btnAddTime')?.addEventListener('click', () => {
+            alert('Added 15 minutes of screen time to current child');
+        });
+
+        document.getElementById('btnLockApps')?.addEventListener('click', () => {
+            window.location.href = 'app_limits_guardian.html';
+        });
+
+        // Pairing logic
+        document.getElementById('confirmPairingBtn')?.addEventListener('click', async () => {
+            const code = document.getElementById('pairingCodeInput').value.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+            if(!code || !pairingPendingChildId) {
+                alert('Please enter a valid code.');
+                return;
+            }
+            
+            try {
+                const res = await fetch('/api/pairing/link', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        code: code,
+                        child_id: pairingPendingChildId,
+                        device_name: 'Mobile Phone'
+                    })
+                });
+                
+                const data = await res.json();
+                if(res.ok) {
+                    alert('Device successfully linked!');
+                    document.getElementById('addDeviceModal').classList.add('hidden');
+                    loadProfiles();
+                } else {
+                    alert(data.error || 'Failed to link device.');
+                }
+            } catch(e) {
+                alert('Error connecting to server.');
+            }
+        });
+
+        const saveBtn = document.getElementById('saveChildBtn');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', async () => {
+                const name = document.getElementById('newChildName').value;
+                const age = document.getElementById('newChildAge').value;
+                const grade = document.getElementById('newChildGrade').value;
+
+                if(name && age && grade) {
+                    try {
+                        const res = await fetch('/api/children', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({ name, age, grade })
+                        });
+                        
+                        if(res.ok) {
+                            document.getElementById('addChildModal').classList.add('hidden');
+                            document.getElementById('newChildName').value = '';
+                            document.getElementById('newChildAge').value = '';
+                            document.getElementById('newChildGrade').value = '';
+                            loadProfiles();
+                        } else {
+                            alert("Backend returned an error. Make sure server.py is running!");
+                        }
+                    } catch(e) {
+                        alert("Error saving child. Is server.py running?");
+                    }
+                } else {
+                    alert("Please fill all fields.");
+                }
+            });
+        }
+    });
+    loadProfiles();
+</script>
+</body>
+</html>

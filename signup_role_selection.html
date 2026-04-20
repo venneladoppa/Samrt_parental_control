@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guardian - Create Your Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed": "#390c00",
+              "secondary": "#585c80",
+              "on-secondary-container": "#575b7f",
+              "tertiary-fixed": "#ffdbd0",
+              "on-background": "#191c1e",
+              "on-error": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "secondary-fixed-dim": "#c1c3ed",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e6e8ea",
+              "surface-container": "#eceef0",
+              "outline": "#767683",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8690ee",
+              "error-container": "#ffdad6",
+              "surface-container-lowest": "#ffffff",
+              "on-error-container": "#93000a",
+              "tertiary": "#380b00",
+              "on-tertiary-fixed-variant": "#7b2e12",
+              "secondary-container": "#d2d4ff",
+              "on-tertiary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "surface": "#f7f9fb",
+              "outline-variant": "#c6c5d4",
+              "surface-variant": "#e0e3e5",
+              "tertiary-container": "#5c1800",
+              "on-secondary-fixed-variant": "#414467",
+              "surface-tint": "#4c56af",
+              "on-primary-fixed-variant": "#343d96",
+              "inverse-on-surface": "#eff1f3",
+              "on-primary": "#ffffff",
+              "primary": "#000666",
+              "secondary-fixed": "#e0e0ff",
+              "on-secondary-fixed": "#151839",
+              "background": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "on-surface-variant": "#454652",
+              "on-tertiary-container": "#e17c5a",
+              "primary-fixed-dim": "#bdc2ff",
+              "surface-container-low": "#f2f4f6",
+              "primary-container": "#1a237e",
+              "inverse-primary": "#bdc2ff",
+              "surface-bright": "#f7f9fb",
+              "on-primary-fixed": "#000767",
+              "primary-fixed": "#e0e0ff",
+              "tertiary-fixed-dim": "#ffb59d"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Manrope', sans-serif;
+      }
+      .asymmetric-shape {
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+      }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex items-center justify-center p-4 md:p-8">
+<!-- Background Decoration -->
+<div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="absolute top-[60%] -right-[5%] w-[30%] h-[50%] bg-primary-container/10 rounded-full blur-[100px]"></div>
+</div>
+<main class="relative z-10 w-full max-w-5xl grid md:grid-cols-2 gap-0 overflow-hidden bg-surface-container-lowest rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,6,102,0.08)]">
+<!-- Brand/Hero Side -->
+<div class="hidden md:flex flex-col justify-between p-12 bg-primary-container relative overflow-hidden">
+<div class="absolute inset-0 opacity-20">
+<img class="w-full h-full object-cover mix-blend-overlay" data-alt="Abstract ethereal connection lines flowing through a deep indigo space with soft glowing nodes and futuristic aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQr8DB0BjLk11CxEbqocwawTNBK31g6aSpqxZMLoz8WD3g2DCsLRU3EoS3SxvPpL-KTyKsgsV0xFiOfJoKlNL-9B3weSKmGuFQp2yjbF5JUonitOCGx07YaVaJJ_VrVlSH7bnZWtsVFyG_dr34YUpchoeJlJb2-B6WGGqDWh7YIV3N-jcqsxAH10tWHTGiahTD1tP5lQZsLS7xjU7QRpeozVCDCdOItBBJY1oshux7_vvhusRMxc56IkYJTNJqo9ubgoCwhN9MPnk"/>
+</div>
+<div class="relative z-20">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<span class="text-2xl font-extrabold tracking-tighter text-white">Guardian</span>
+</div>
+</div>
+<div class="relative z-20 mb-12">
+<h1 class="text-5xl font-extrabold text-white leading-tight tracking-tight mb-6">
+                    Safety starts with <br/><span class="text-on-primary-container">simplicity.</span>
+</h1>
+<p class="text-on-primary-container text-lg max-w-sm font-medium leading-relaxed">
+                    Join the digital sanctuary where protection is intuitive and peace of mind is the default.
+                </p>
+</div>
+<div class="relative z-20 flex gap-4">
+<div class="h-1 w-12 bg-white rounded-full"></div>
+<div class="h-1 w-4 bg-white/30 rounded-full"></div>
+<div class="h-1 w-4 bg-white/30 rounded-full"></div>
+</div>
+</div>
+<!-- Form Side -->
+<div class="p-8 md:p-16 flex flex-col justify-center">
+<div class="mb-10">
+<div class="md:hidden flex items-center gap-2 mb-8">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">shield</span>
+<span class="text-xl font-extrabold tracking-tighter text-primary">Guardian</span>
+</div>
+<h2 class="text-3xl font-extrabold text-on-surface tracking-tight mb-2">Create Account</h2>
+<p class="text-on-surface-variant font-medium">Step into your digital sanctuary.</p>
+</div>
+<form class="space-y-8">
+<!-- Role Selection -->
+<div class="space-y-4">
+<label class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant block">I am a</label>
+<div class="grid grid-cols-2 gap-4">
+<label class="relative group cursor-pointer">
+<input checked="" class="peer sr-only" name="role" type="radio" value="parent"/>
+<div class="p-4 rounded-2xl border-2 border-transparent bg-surface-container-low transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/5 group-hover:bg-surface-container">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm text-on-surface-variant peer-checked:text-primary">
+<span class="material-symbols-outlined">supervisor_account</span>
+</div>
+<span class="font-bold text-on-surface">Parent</span>
+</div>
+</div>
+</label>
+<label class="relative group cursor-pointer">
+<input class="peer sr-only" name="role" type="radio" value="child"/>
+<div class="p-4 rounded-2xl border-2 border-transparent bg-surface-container-low transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/5 group-hover:bg-surface-container">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm text-on-surface-variant">
+<span class="material-symbols-outlined">child_care</span>
+</div>
+<span class="font-bold text-on-surface">Child</span>
+</div>
+</div>
+</label>
+</div>
+</div>
+<!-- Input Fields -->
+<div class="space-y-6">
+<div class="relative group">
+<label class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant block mb-2 transition-colors group-focus-within:text-primary" for="email">Email ID</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-t-xl px-4 py-4 font-medium transition-all outline-none placeholder:text-outline-variant" id="email" placeholder="name@example.com" type="email"/>
+<span class="material-symbols-outlined absolute right-4 top-4 text-outline-variant">mail</span>
+</div>
+</div>
+<div class="relative group">
+<label class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant block mb-2 transition-colors group-focus-within:text-primary" for="password">Password</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-t-xl px-4 py-4 font-medium transition-all outline-none placeholder:text-outline-variant" id="password" placeholder="••••••••" type="password"/>
+<span class="material-symbols-outlined absolute right-4 top-4 text-outline-variant">lock</span>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="pt-4">
+<button class="w-full bg-primary hover:bg-primary-container text-white font-bold py-5 px-6 rounded-2xl flex items-center justify-center gap-2 transition-all duration-300 transform active:scale-[0.98] shadow-[0_12px_24px_-8px_rgba(0,6,102,0.3)]" type="submit">
+<span>Create Account</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<p class="mt-8 text-center text-on-surface-variant text-sm font-medium">
+                        Already have an account? 
+                        <a class="text-primary font-bold hover:underline underline-offset-4 ml-1" href="#">Log in</a>
+</p>
+</div>
+</form>
+<!-- Footer Compliance -->
+<div class="mt-auto pt-12">
+<p class="text-[10px] text-outline text-center leading-relaxed max-w-xs mx-auto">
+                    By clicking "Create Account", you agree to our 
+                    <a class="underline" href="#">Terms of Service</a> and 
+                    <a class="underline" href="#">Privacy Policy</a>.
+                </p>
+</div>
+</div>
+</main>
+<!-- Social Proof / Contextual Badge -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-4 bg-white/80 backdrop-blur-xl px-6 py-3 rounded-full shadow-lg">
+<div class="flex -space-x-2">
+<img class="w-6 h-6 rounded-full border-2 border-white object-cover" data-alt="Portrait of a smiling professional woman with soft lighting and blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp070RxKG3utAnT7Iq6KEjN7ze0ZfaH2Fy0MtQ-tZXA7l75q49gIMxj_fXvjTK8hH2nCgSsi-A0EYIHWF69vf2qS8q8nBfi-gUHOX9Nn4JsdNetrs8KYtD1Pkjo3cCi-E6TAtc9_oUx3aRWtVzcC8JJXryVuAwUZLTYGiThkjhey2_hY2I_mF4hn1QnNeNMZYBSOJ9uVPBhQ39S3k3C7I7wDt4mhIZXDhW7r7vDcwPZcrpDmHy0v-4rHpDyUheXbS9D24eirYGaJE"/>
+<img class="w-6 h-6 rounded-full border-2 border-white object-cover" data-alt="Close up portrait of a man with friendly expression in natural daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPKzds-z9kWz7Mlkdd1CB8MOPBAzDR6L4G6TrgXPDTKRBh_wMdH77k6Z6byXhB_uDZWnhlSMZ9JwTSKqUjC82kjwX4UVvurkjrFeJHaGRG5fgSmUj9W6CvbgrG-hBshwsKcJ0LapS6bvtKNTGBAjIXtD9fKrSInqpuwpRopSSUQHsC2BsXPvv7qKkgzmRlNAlHuP5MNbXHEUuwLyXcGnCE5mFRJC5FDBxZxN-1B3OmGL6eoFTJOX4pe7U7FgXSidkUqKtkidWGxkE"/>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-primary-container flex items-center justify-center text-[8px] font-bold text-white">+2k</div>
+</div>
+<p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Trusted by 2,000+ Families</p>
+</div>
+<script>
+    (function() {
+        const originalFetch = window.fetch;
+        window.fetch = function() {
+            let [resource, config] = arguments;
+            if (config === undefined) config = {};
+            if (config.headers === undefined) config.headers = {};
+            const token = sessionStorage.getItem('token');
+            if (token && resource.toString().startsWith('/api/')) {
+                if (config.headers instanceof Headers) {
+                    config.headers.set('Authorization', 'Bearer ' + token);
+                } else {
+                    config.headers['Authorization'] = 'Bearer ' + token;
+                }
+            }
+            return originalFetch(resource, config);
+        };
+    })();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const signupBtn = document.querySelector('button[type="submit"]');
+    if (signupBtn) {
+        signupBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const role = document.querySelector('input[name="role"]:checked').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, role })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    sessionStorage.setItem('token', data.token);
+                    if (role === 'child') {
+                        window.location.href = 'pair_with_parent_child.html';
+                    } else {
+                        window.location.href = 'link_device_parent.html';
+                    }
+                } else {
+                    alert(data.error || 'Registration failed');
+                }
+            } catch (err) {
+                alert('Network error. Please try again.');
+            }
+        });
+    }
+
+    // Link handling
+    document.querySelectorAll('a').forEach(a => {
+        const text = a.innerText.toLowerCase();
+        if (text.includes('log in')) a.href = 'login.html';
+    });
+});
+</script>
+</body></html>

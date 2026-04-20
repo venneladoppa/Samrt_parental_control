@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Parental App</title>
+</head>
+<body>
+    <p>Loading application...</p>
+    <script>
+        (function() {
+            const originalFetch = window.fetch;
+            window.fetch = function() {
+                let [resource, config] = arguments;
+                if (config === undefined) config = {};
+                if (config.headers === undefined) config.headers = {};
+                const token = sessionStorage.getItem('token');
+                if (token && resource.toString().startsWith('/api/')) {
+                    if (config.headers instanceof Headers) {
+                        config.headers.set('Authorization', 'Bearer ' + token);
+                    } else {
+                        config.headers['Authorization'] = 'Bearer ' + token;
+                    }
+                }
+                return originalFetch(resource, config);
+            };
+        })();
+
+        fetch('/api/me')
+            .then(res => {
+                if (res.ok) {
+                    return res.json().then(data => {
+                        if (data.role === 'child') {
+                            window.location.href = 'child_home_guardian.html';
+                        } else {
+                            window.location.href = 'parent_dashboard_guardian.html';
+                        }
+                    });
+                } else {
+                    window.location.href = 'login.html';
+                }
+            })
+            .catch(() => {
+                window.location.href = 'login.html';
+            });
+    </script>
+</body>
+</html>
