@@ -29,17 +29,48 @@ IS_POSTGRES = DATABASE_URL is not None
 class DBWrapper:
     def __init__(self, conn):
         self.conn = conn
+        self.lastrowid = None
+
     def execute(self, query, params=()):
         if IS_POSTGRES:
             from psycopg2.extras import RealDictCursor
+            # Convert SQLite '?' to Postgres '%s'
             query = query.replace('?', '%s')
+            
+            # Handle lastrowid equivalent by appending RETURNING id to INSERTs
+            is_insert = query.strip().upper().startswith('INSERT')
+            if is_insert and 'RETURNING' not in query.upper():
+                query += ' RETURNING id'
+                
             cursor = self.conn.cursor(cursor_factory=RealDictCursor)
             cursor.execute(query, params)
+            
+            if is_insert:
+                try:
+                    result = cursor.fetchone()
+                    if result:
+                        self.lastrowid = result['id']
+                except:
+                    pass
             return cursor
         else:
-            return self.conn.execute(query, params)
+            cursor = self.conn.execute(query, params)
+            self.lastrowid = cursor.lastrowid
+            return cursor
+
     def commit(self): self.conn.commit()
     def close(self): self.conn.close()
+
+def get_db_date_query(column_name, period='today'):
+    """Helper to generate cross-database date filtering."""
+    if IS_POSTGRES:
+        if period == 'today':
+            return f"DATE({column_name}) = CURRENT_DATE"
+        return "1=1"
+    else:
+        if period == 'today':
+            return f"date({column_name}) = date('now', 'localtime')"
+        return "1=1"
 
 def get_db_connection():
     if IS_POSTGRES:
@@ -47,6 +78,13 @@ def get_db_connection():
         url = DATABASE_URL
         if url.startswith("postgres://"):
             url = url.replace("postgres://", "postgresql://", 1)
+        # Ensure sslmode is require
+        if 'sslmode=' not in url:
+            connector = '&' if '?' in url else '?'
+            url += f"{connector}sslmode=require"
+        elif 'sslmode=req' in url and 'sslmode=require' not in url:
+            url = url.replace('sslmode=req', 'sslmode=require')
+            
         return DBWrapper(psycopg2.connect(url))
     else:
         db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database.db')
@@ -149,7 +187,7 @@ def register():
     try:
         cursor = conn.execute('INSERT INTO users (email, password, role) VALUES (?, ?, ?)', (email, hashed_pw, role))
         conn.commit()
-        user_id = cursor.lastrowid
+        user_id = conn.lastrowid
         session.permanent = True
         session['user_id'] = user_id
         session['email'] = email
@@ -236,9 +274,9 @@ def add_child():
         return jsonify({'error': 'Missing required fields'}), 400
         
     conn = get_db_connection()
-    cursor = conn.execute('INSERT INTO children (user_id, name, age, grade) VALUES (?, ?, ?, ?)', (user_id, name, age, grade))
+    conn.execute('INSERT INTO children (user_id, name, age, grade) VALUES (?, ?, ?, ?)', (user_id, name, age, grade))
     conn.commit()
-    child_id = cursor.lastrowid
+    child_id = conn.lastrowid
     conn.close()
     return jsonify({'id': child_id, 'name': name, 'age': age, 'grade': grade}), 201
 
@@ -366,8 +404,8 @@ def link_pairing():
         conn.close()
         return jsonify({'error': 'Invalid child or unauthorized'}), 404
         
-    cursor = conn.execute('INSERT INTO devices (name, type, child_id) VALUES (?, ?, ?)', (device_name, 'Mobile', int(child_id)))
-    device_id = cursor.lastrowid
+    conn.execute('INSERT INTO devices (name, type, child_id) VALUES (?, ?, ?)', (device_name, 'Mobile', int(child_id)))
+    device_id = conn.lastrowid
     
     conn.execute('UPDATE pairing_sessions SET status = ?, linked_device_id = ? WHERE code = ?', ('linked', device_id, code))
     conn.commit()
@@ -421,7 +459,7 @@ def get_stats(child_id):
     params = [child_id]
     
     if period == 'today':
-        query += " AND date(u.log_date) = date('now', 'localtime')"
+        query += f" AND {get_db_date_query('u.log_date', 'today')}"
         
     query += " GROUP BY u.app_name ORDER BY total_duration DESC"
     
@@ -515,18 +553,20 @@ def device_status(device_id):
             total_dur = 0
             app_stats = []
             if child_id:
-                stats = conn.execute("SELECT SUM(duration_seconds) as total FROM usage_stats JOIN devices d ON usage_stats.device_id=d.id WHERE d.child_id=? AND date(log_date)=date('now', 'localtime')", (child_id,)).fetchone()
+                stats_query = f"SELECT SUM(duration_seconds) as total FROM usage_stats JOIN devices d ON usage_stats.device_id=d.id WHERE d.child_id=? AND {get_db_date_query('log_date', 'today')}"
+                stats = conn.execute(stats_query, (child_id,)).fetchone()
                 if stats and stats['total']:
                     total_dur = stats['total']
                 
-                app_stats_rows = conn.execute('''
+                app_stats_query = f'''
                     SELECT u.app_name, SUM(u.duration_seconds) as total_duration
                     FROM usage_stats u
                     JOIN devices d ON u.device_id = d.id
-                    WHERE d.child_id = ? AND date(u.log_date) = date('now', 'localtime')
+                    WHERE d.child_id = ? AND {get_db_date_query('u.log_date', 'today')}
                     GROUP BY u.app_name
                     ORDER BY total_duration DESC
-                ''', (child_id,)).fetchall()
+                '''
+                app_stats_rows = conn.execute(app_stats_query, (child_id,)).fetchall()
                 app_stats = [dict(row) for row in app_stats_rows]
                     
             conn.close()
