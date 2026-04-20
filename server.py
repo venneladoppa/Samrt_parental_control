@@ -8,7 +8,17 @@ import random
 import string
 from datetime import timedelta
 
-app = Flask(__name__, static_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mobile_app'), static_url_path='')
+# Determine static folder dynamically
+base_dir = os.path.dirname(os.path.abspath(__file__))
+potential_folders = [os.path.join(base_dir, 'mobile_app'), base_dir]
+static_folder = potential_folders[0] # Default
+
+for folder in potential_folders:
+    if os.path.exists(os.path.join(folder, 'index.html')) or os.path.exists(os.path.join(folder, 'login.html')):
+        static_folder = folder
+        break
+
+app = Flask(__name__, static_folder=static_folder, static_url_path='')
 app.secret_key = os.environ.get('SECRET_KEY', 'super-secret-guardian-key')
 app.permanent_session_lifetime = timedelta(days=30)
 
@@ -82,14 +92,35 @@ def init_db():
 
 @app.route('/')
 def home():
-    return redirect('/login.html')
+    """Serve index.html at the root."""
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/<path:path>')
 def serve_static(path):
-    # Ensure we look in the absolute path
-    full_path = os.path.join(app.static_folder, path)
-    print(f"DEBUG: Serving {path} from {full_path}")
-    return send_from_directory(app.static_folder, path)
+    """Serve any static file if it exists, otherwise fall back to index.html (SPA style)."""
+    if os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    # If the file isn't found, try without a leading slash just in case
+    clean_path = path.lstrip('/')
+    if os.path.exists(os.path.join(app.static_folder, clean_path)):
+        return send_from_directory(app.static_folder, clean_path)
+    
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/api/status')
+def status():
+    """Debug endpoint to check server health and file visibility."""
+    files = []
+    if os.path.exists(app.static_folder):
+        files = os.listdir(app.static_folder)
+    return jsonify({
+        'status': 'online',
+        'database': 'postgresql' if IS_POSTGRES else 'sqlite',
+        'static_folder': app.static_folder,
+        'static_folder_exists': os.path.exists(app.static_folder),
+        'files_found': files[:10], # Show first 10 files
+        'current_time': time.ctime()
+    })
 
 def get_auth_user_id():
     auth_header = request.headers.get('Authorization')
